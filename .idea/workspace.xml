@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2dcbc3ce-b9c9-441f-bd67-a5a631ec30d1" name="Changes" comment="" />
+    <list default="true" id="2dcbc3ce-b9c9-441f-bd67-a5a631ec30d1" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/resources/engine/mac/iro-chess" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/engine/windows/iro-chess.exe" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -23,6 +27,21 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Irokanade&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Irokanade/iro-chess-gui.git&quot;,
+    &quot;accountId&quot;: &quot;d9045b1b-39ed-462b-b254-ed1fe80bcd3a&quot;
+  }
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -36,8 +55,10 @@
   "keyToString": {
     "Gradle.iro-chess-gui [:com.iro.Main.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/michaeljsleong/michaeljsleong/java/iro-chess-gui",
+    "last_opened_file_path": "/Users/michaeljsleong/michaeljsleong/java/iro-chess-gui/src/main/resources/engine/windows",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -47,11 +68,14 @@
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/resources/engine/windows" />
+      <recent name="$PROJECT_DIR$/src/main/resources/engine/mac" />
       <recent name="$PROJECT_DIR$/src/main/resources/piece" />
     </key>
   </component>
