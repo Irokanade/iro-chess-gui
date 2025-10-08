@@ -1604,10 +1604,8 @@ public class Board {
 
     // parse user/GUI move string input (e.g. "e7e8q")
     public int parseMove(String moveString) {
-        // create move list instance
-        Moves moveList = new Moves();
 
-        // generate moves
+        Moves moveList = new Moves();
         generateMoves(moveList);
 
         int source_square = (moveString.charAt(0) - 'a') + (8 - (moveString.charAt(1) - '0')) * 8;

@@ -6,6 +6,7 @@ import com.iro.board.MoveTypeEnum;
 import com.iro.board.Moves;
 import com.iro.board.PieceEnum;
 import com.iro.board.SquareEnum;
+import com.iro.engine.UciClient;
 import com.iro.piece.BlackBishop;
 import com.iro.piece.BlackKnight;
 import com.iro.piece.BlackQueen;
@@ -24,6 +25,7 @@ import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -46,6 +48,9 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean gameOver;
     public boolean stalemate;
 
+    private boolean playAgainstComputer = true;
+    public UciClient uciClient;
+
     public GamePanel() {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
@@ -55,6 +60,13 @@ public class GamePanel extends JPanel implements Runnable {
         board = new Board();
         copyPieces(board, simPieces);
         board.generateMoves(moveList);
+
+        uciClient = new UciClient();
+        try {
+            uciClient.start();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void launchGame() {
@@ -158,6 +170,15 @@ public class GamePanel extends JPanel implements Runnable {
 
                     if (legalMove) {
                         board.addMove(historyMoveList, moveList.moves[i]);
+
+                        if (playAgainstComputer) {
+                            String bestMove = uciClient.getBestMove(historyMoveList);
+                            System.out.println(bestMove);
+                            int engineMove = board.parseMove(bestMove.substring(9));
+                            board.makeMove(engineMove, MoveTypeEnum.ALL_MOVES);
+                            board.addMove(historyMoveList, engineMove);
+                        }
+
                         board.generateMoves(moveList);
                         copyPieces(board, simPieces);
 
@@ -208,15 +229,35 @@ public class GamePanel extends JPanel implements Runnable {
                         board.getMoveCastling(promotionMove)? 1 : 0
                     );
 
-                    board.addMove(historyMoveList, move);
                     board.makeMove(move, MoveTypeEnum.ALL_MOVES);
-                    board.generateMoves(moveList);
+                    board.addMove(historyMoveList, move);
+
+                    if (playAgainstComputer) {
+                        String bestMove = uciClient.getBestMove(historyMoveList);
+                        System.out.println(bestMove);
+                        int engineMove = board.parseMove(bestMove.substring(9));
+                        board.makeMove(engineMove, MoveTypeEnum.ALL_MOVES);
+                        board.addMove(historyMoveList, engineMove);
+                    }
+
                     copyPieces(board, simPieces);
+                    board.generateMoves(moveList);
 
                     promotionMove = 0;
                     activePiece = null;
                 }
             }
+        }
+    }
+
+    public void cleanup() {
+        if (uciClient != null) {
+            uciClient.close();
+            uciClient = null;
+        }
+
+        if (gameThread != null) {
+            gameThread = null;
         }
     }
 

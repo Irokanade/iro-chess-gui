@@ -1,6 +1,5 @@
 package com.iro.engine;
 
-import com.iro.board.Board;
 import com.iro.board.Moves;
 import com.iro.board.PieceEnum;
 import com.iro.board.SquareEnum;

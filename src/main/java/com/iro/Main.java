@@ -3,6 +3,8 @@ package com.iro;
 import com.iro.gui.GamePanel;
 
 import javax.swing.JFrame;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class Main {
     public static void main(String[] args) {
@@ -16,6 +18,19 @@ public class Main {
         window.pack();
         window.setLocationRelativeTo(null);
         window.setVisible(true);
+
+        window.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                System.out.println("Cleaning up engine...");
+                gamePanel.cleanup();
+            }
+        });
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            System.out.println("Shutdown hook - cleaning up engine...");
+            gamePanel.cleanup();
+        }));
 
         gamePanel.launchGame();
     }
