@@ -10,4 +10,11 @@ public class WhiteRook extends Piece {
 
         image = getImage("/piece/w-rook");
     }
+
+    public WhiteRook(int col, int row) {
+        super(col, row);
+        piece = PieceEnum.R;
+
+        image = getImage("/piece/w-rook");
+    }
 }

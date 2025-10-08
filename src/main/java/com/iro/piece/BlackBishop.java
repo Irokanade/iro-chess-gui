@@ -10,4 +10,11 @@ public class BlackBishop extends Piece {
 
         image = getImage("/piece/b-bishop");
     }
+
+    public BlackBishop(int col, int row) {
+        super(col, row);
+        piece = PieceEnum.b;
+
+        image = getImage("/piece/b-bishop");
+    }
 }

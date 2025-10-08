@@ -5,7 +5,7 @@ import com.iro.board.PieceEnum;
 import com.iro.board.SquareEnum;
 
 import javax.imageio.ImageIO;
-import java.awt.*;
+import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.util.Objects;
 
@@ -17,17 +17,22 @@ public class Piece {
     public int x;
     public int y;
     private SquareEnum preSquare;
-    public Piece hittingPiece;
-    public boolean moved;
-    public boolean twoStepped;
 
     public Piece(SquareEnum square) {
-        PieceEnum piece = null;
+        piece = null;
         this.square = square;
         x = getX(square);
         y = getY(square);
         preSquare = square;
-        moved = false;
+    }
+
+    public Piece(int col, int row) {
+        // used for piece gui
+        piece = null;
+        square = null;
+        x = col * Board.SQUARE_SIZE;
+        y = row * Board.SQUARE_SIZE;
+        preSquare = null;
     }
 
     public BufferedImage getImage(String imagePath) {
@@ -37,6 +42,10 @@ public class Piece {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        return image;
+    }
+
+    public BufferedImage getImage() {
         return image;
     }
 
@@ -50,11 +59,27 @@ public class Piece {
         return row * Board.SQUARE_SIZE;
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public int getCol(int x) {
         return (x + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
     }
 
     public int getRow(int y) {
+        return (y + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
+    }
+
+    public int getCol() {
+        return (x + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
+    }
+
+    public int getRow() {
         return (y + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
     }
 

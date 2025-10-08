@@ -10,4 +10,11 @@ public class BlackRook extends Piece {
 
         image = getImage("/piece/b-rook");
     }
+
+    public BlackRook(int col, int row) {
+        super(col, row);
+        piece = PieceEnum.r;
+
+        image = getImage("/piece/b-rook");
+    }
 }

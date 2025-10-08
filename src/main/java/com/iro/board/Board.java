@@ -1,6 +1,7 @@
 package com.iro.board;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -655,7 +656,7 @@ public class Board {
         return false;
     }
 
-    private void addMove(Moves moveList, int move) {
+    public void addMove(Moves moveList, int move) {
         moveList.moves[moveList.count] = move;
         moveList.count++;
     }
@@ -1599,6 +1600,65 @@ public class Board {
             }
         }
         return false;
+    }
+
+    // parse user/GUI move string input (e.g. "e7e8q")
+    public int parseMove(String moveString) {
+        // create move list instance
+        Moves moveList = new Moves();
+
+        // generate moves
+        generateMoves(moveList);
+
+        int source_square = (moveString.charAt(0) - 'a') + (8 - (moveString.charAt(1) - '0')) * 8;
+        int target_square = (moveString.charAt(2) - 'a') + (8 - (moveString.charAt(3) - '0')) * 8;
+
+        // loop over the moves within a move list
+        for (int move_count = 0; move_count < moveList.count; ++move_count) {
+            // init move
+            int move = moveList.moves[move_count];
+
+            // make sure source & target squares are available within the generated move
+            if (source_square == getMoveSource(move).ordinal() &&
+                target_square == getMoveTarget(move).ordinal()) {
+                // init promoted piece
+                PieceEnum promoted_piece = getMovePromoted(move);
+
+                // promoted piece is available
+                if (promoted_piece.ordinal() != 0) {
+                    // promoted to queen
+                    if ((promoted_piece == PieceEnum.Q || promoted_piece == PieceEnum.q) &&
+                        moveString.charAt(4) == 'q') {
+                        // return legal move
+                        return move;
+                    } else if ((promoted_piece == PieceEnum.R || promoted_piece == PieceEnum.r) &&
+                        moveString.charAt(4) == 'r') {
+                        // promoted to rook
+                        // return legal move
+                        return move;
+                    } else if ((promoted_piece == PieceEnum.B || promoted_piece == PieceEnum.b) &&
+                        moveString.charAt(4) == 'b') {
+                        // promoted to bishop
+                        // return legal move
+                        return move;
+                    } else if ((promoted_piece == PieceEnum.N || promoted_piece == PieceEnum.n) &&
+                        moveString.charAt(4) == 'n') {
+                        // promoted to knight
+                        // return legal move
+                        return move;
+                    }
+
+                    // continue the loop on possible wrong promotions (e.g. "e7e8f")
+                    continue;
+                }
+
+                // return legal move
+                return move;
+            }
+        }
+
+        // return illegal move
+        return 0;
     }
 
     public final int MAX_COL = 8;

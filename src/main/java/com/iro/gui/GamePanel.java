@@ -1,15 +1,29 @@
 package com.iro.gui;
 
 import com.iro.board.Board;
+import com.iro.board.BoardState;
 import com.iro.board.MoveTypeEnum;
 import com.iro.board.Moves;
 import com.iro.board.PieceEnum;
 import com.iro.board.SquareEnum;
+import com.iro.piece.BlackBishop;
+import com.iro.piece.BlackKnight;
+import com.iro.piece.BlackQueen;
+import com.iro.piece.BlackRook;
 import com.iro.piece.Piece;
 import com.iro.piece.PieceFactory;
+import com.iro.piece.WhiteBishop;
+import com.iro.piece.WhiteKnight;
+import com.iro.piece.WhiteQueen;
+import com.iro.piece.WhiteRook;
 
 import javax.swing.JPanel;
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.util.ArrayList;
 
 public class GamePanel extends JPanel implements Runnable {
@@ -21,14 +35,14 @@ public class GamePanel extends JPanel implements Runnable {
     private final Board board;
     public Mouse mouse = new Mouse();
 
-    public static ArrayList<Piece> pieces = new ArrayList<Piece>();
     public static ArrayList<Piece> simPieces = new ArrayList<Piece>();
     public ArrayList<Piece> promoPieces = new ArrayList<Piece>();
     public Piece activePiece;
 
     public static Moves moveList = new Moves();
+    public static Moves historyMoveList = new Moves();
 
-    public boolean promotion;
+    public int promotionMove;
     public boolean gameOver;
     public boolean stalemate;
 
@@ -41,7 +55,6 @@ public class GamePanel extends JPanel implements Runnable {
         board = new Board();
         copyPieces(board, simPieces);
         board.generateMoves(moveList);
-
     }
 
     public void launchGame() {
@@ -86,6 +99,11 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
+        if (promotionMove != 0) {
+            promoting();
+            return;
+        }
+
         if (mouse.pressed) {
             if (activePiece == null) {
                 for (Piece piece : simPieces) {
@@ -109,12 +127,40 @@ public class GamePanel extends JPanel implements Runnable {
 
                 if (activePiece.getPreSquare() == sourceSquare &&
                     activePiece.getSquare() == targetSquare) {
+
+                    if (board.getMovePromoted(moveList.moves[i]).ordinal() != 0) {
+                        // handle promotion
+                        BoardState boardState = board.copyBoard();
+                        promotionMove = board.makeMove(moveList.moves[i], MoveTypeEnum.ALL_MOVES) ?
+                            moveList.moves[i] : 0;
+                        board.takeBack(boardState);
+
+                        // setup promotion pieces ui
+                        if (promotionMove != 0) {
+                            promoPieces.clear();
+                            if (board.getSide() == Board.SIDE_WHITE) {
+                                promoPieces.add(new WhiteRook(9, 2));
+                                promoPieces.add(new WhiteKnight(9, 3));
+                                promoPieces.add(new WhiteBishop(9, 4));
+                                promoPieces.add(new WhiteQueen(9, 5));
+                            } else {
+                                promoPieces.add(new BlackRook(9, 2));
+                                promoPieces.add(new BlackKnight(9, 3));
+                                promoPieces.add(new BlackBishop(9, 4));
+                                promoPieces.add(new BlackQueen(9, 5));
+                            }
+                        }
+
+                        return;
+                    }
+
                     legalMove = board.makeMove(moveList.moves[i], MoveTypeEnum.ALL_MOVES);
 
                     if (legalMove) {
+                        board.addMove(historyMoveList, moveList.moves[i]);
                         board.generateMoves(moveList);
                         copyPieces(board, simPieces);
-                        
+
                         if (!board.hasLegalMoves(moveList)) {
                             if (board.isSquareAttacked(
                                     (board.getSide() == Board.SIDE_WHITE) ?
@@ -143,6 +189,35 @@ public class GamePanel extends JPanel implements Runnable {
         activePiece.x = mouse.x - Board.HALF_SQUARE_SIZE;
         activePiece.y = mouse.y - Board.HALF_SQUARE_SIZE;
         activePiece.setSquare(activePiece.x, activePiece.y);
+    }
+
+    private void promoting() {
+        if(mouse.pressed) {
+            for(Piece piece : promoPieces) {
+                if(piece.getCol() == mouse.x / Board.SQUARE_SIZE &&
+                    piece.getRow() == mouse.y / Board.SQUARE_SIZE) {
+
+                    int move = board.encodeMove(
+                        board.getMoveSource(promotionMove).ordinal(),
+                        board.getMoveTarget(promotionMove).ordinal(),
+                        board.getMovePiece(promotionMove),
+                        piece.getPiece().ordinal(),
+                        board.getMoveCapture(promotionMove)? 1 : 0,
+                        board.getMoveDouble(promotionMove)? 1 : 0,
+                        board.getMoveEnpassant(promotionMove)? 1 : 0,
+                        board.getMoveCastling(promotionMove)? 1 : 0
+                    );
+
+                    board.addMove(historyMoveList, move);
+                    board.makeMove(move, MoveTypeEnum.ALL_MOVES);
+                    board.generateMoves(moveList);
+                    copyPieces(board, simPieces);
+
+                    promotionMove = 0;
+                    activePiece = null;
+                }
+            }
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -180,35 +255,35 @@ public class GamePanel extends JPanel implements Runnable {
 //            activePiece.draw(graphics2d);
 //        }
 //
-//        // status messages
-//        graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
-//        graphics2d.setFont(new Font("Book Antique", Font.PLAIN, 40));
-//        graphics2d.setColor(Color.WHITE);
+        // status messages
+        graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+        graphics2d.setFont(new Font("Book Antique", Font.PLAIN, 40));
+        graphics2d.setColor(Color.WHITE);
 
-//        if(promotion) {
-//            graphics2d.drawString("Promoting to:", 840, 150);
-//            for(Piece piece : promoPieces) {
-//                graphics2d.drawImage(piece.image, piece.getX(piece.col), piece.getY(piece.row),
-//                    Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
-//            }
-//        } else {
-//            if (currentColor == WHITE) {
-//                graphics2d.drawString("White's turn", 840, 550);
+        if(promotionMove != 0) {
+            graphics2d.drawString("Promoting to:", 840, 150);
+            for(Piece piece : promoPieces) {
+                graphics2d.drawImage(piece.getImage(), piece.getX(), piece.getY(),
+                    Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
+            }
+        } else {
+            if (board.getSide() == Board.SIDE_WHITE) {
+                graphics2d.drawString("White's turn", 840, 550);
 //                if(checkingPiece != null && checkingPiece.color == BLACK) {
 //                    graphics2d.setColor(Color.red);
 //                    graphics2d.drawString("The King", 840, 650);
 //                    graphics2d.drawString("is in checkK!", 840, 700);
 //                }
-//            } else {
-//                graphics2d.drawString("Black's turn", 840, 250);
+            } else {
+                graphics2d.drawString("Black's turn", 840, 250);
 //                if(checkingPiece != null && checkingPiece.color == WHITE) {
 //                    graphics2d.setColor(Color.red);
 //                    graphics2d.drawString("The King", 840, 100);
 //                    graphics2d.drawString("is in checkK!", 840, 150);
 //                }
-//            }
-//        }
-//
+            }
+        }
+
         if(gameOver) {
             String s = "";
             if(board.getSide() == Board.SIDE_BLACK) {

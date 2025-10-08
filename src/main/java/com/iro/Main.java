@@ -2,11 +2,11 @@ package com.iro;
 
 import com.iro.gui.GamePanel;
 
-import javax.swing.*;
+import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        JFrame window = new JFrame("Simple Chess");
+        JFrame window = new JFrame("Iro Chess");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 

@@ -10,4 +10,11 @@ public class BlackKnight extends Piece {
 
         image = getImage("/piece/b-knight");
     }
+
+    public BlackKnight(int col, int row) {
+        super(col, row);
+        piece = PieceEnum.k;
+
+        image = getImage("/piece/b-knight");
+    }
 }

@@ -10,4 +10,11 @@ public class WhiteQueen extends Piece {
 
         image = getImage("/piece/w-queen");
     }
+
+    public WhiteQueen(int col, int row) {
+        super(col, row);
+        piece = PieceEnum.Q;
+
+        image = getImage("/piece/w-queen");
+    }
 }

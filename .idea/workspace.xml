@@ -4,10 +4,28 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="2dcbc3ce-b9c9-441f-bd67-a5a631ec30d1" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/resources/engine/mac/iro-chess" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/engine/windows/iro-chess.exe" afterDir="false" />
+    <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/iro/engine/UciClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/Board.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/Moves.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/Moves.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackBishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackBishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackKnight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackKnight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackQueen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackQueen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackRook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/BlackRook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/Piece.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteBishop.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteBishop.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteKnight.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteKnight.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteQueen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteQueen.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteRook.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/WhiteRook.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/engine/mac/iro-chess" beforeDir="false" afterPath="$PROJECT_DIR$/engine/mac/iro-chess" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/engine/windows/iro-chess.exe" beforeDir="false" afterPath="$PROJECT_DIR$/engine/windows/iro-chess.exe" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,33 +37,25 @@
       <ProjectState />
     </projectState>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Enum" />
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory">{
-  &quot;lastFilter&quot;: {
-    &quot;state&quot;: &quot;OPEN&quot;,
-    &quot;assignee&quot;: &quot;Irokanade&quot;
+  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
+  "lastFilter": {
+    "state": "OPEN",
+    "assignee": "Irokanade"
   }
-}</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Irokanade/iro-chess-gui.git&quot;,
-    &quot;accountId&quot;: &quot;d9045b1b-39ed-462b-b254-ed1fe80bcd3a&quot;
+}]]></component>
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Irokanade/iro-chess-gui.git",
+    "accountId": "d9045b1b-39ed-462b-b254-ed1fe80bcd3a"
   }
-}</component>
-  <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 4
-}</component>
-  <component name="ProjectId" id="33E2tOkjJMequiAOmf8BbII8P10" />
+}]]></component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 4
+}]]></component>
+  <component name="ProjectId" id="33mtN6puBhed7aGUcjNFIIVejIC" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -57,28 +67,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
     "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/michaeljsleong/michaeljsleong/java/iro-chess-gui/src/main/resources/engine/windows",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "onboarding.tips.debug.path": "/Users/michaelleongjs/michaelleongjs/projects/iro-chess-gui/src/main/java/com/iro/Main.java",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "editor.preferences.fonts.default",
-    "vue.rearranger.settings.migration": "true"
+    "kotlin-language-version-configured": "true"
   }
 }]]></component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/main/resources/engine/windows" />
-      <recent name="$PROJECT_DIR$/src/main/resources/engine/mac" />
-      <recent name="$PROJECT_DIR$/src/main/resources/piece" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.iro.Main" />
@@ -93,6 +84,17 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="iro-chess-gui.main" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="iro-chess-gui.main" />
+      <option name="filePath" />
+      <method v="2" />
+    </configuration>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Main" />
@@ -102,31 +104,12 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="2dcbc3ce-b9c9-441f-bd67-a5a631ec30d1" name="Changes" comment="" />
-      <created>1758868124568</created>
+      <changelist id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="" />
+      <created>1759934031277</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1758868124568</updated>
-      <workItem from="1758868125664" duration="13124000" />
-      <workItem from="1758964543963" duration="1928000" />
-      <workItem from="1759128894016" duration="258000" />
-      <workItem from="1759196905333" duration="52000" />
-      <workItem from="1759308480903" duration="3706000" />
-      <workItem from="1759314096107" duration="1303000" />
-      <workItem from="1759337531335" duration="4972000" />
-      <workItem from="1759369951938" duration="4156000" />
-      <workItem from="1759391784654" duration="3068000" />
-      <workItem from="1759417088079" duration="7803000" />
-      <workItem from="1759455758403" duration="2008000" />
-      <workItem from="1759457775406" duration="332000" />
-      <workItem from="1759461717707" duration="2405000" />
-      <workItem from="1759499840223" duration="7083000" />
-      <workItem from="1759553539241" duration="10000" />
-      <workItem from="1759553565201" duration="5725000" />
+      <updated>1759934031277</updated>
     </task>
     <servers />
-  </component>
-  <component name="TypeScriptGeneratedFilesManager">
-    <option name="version" value="3" />
   </component>
 </project>

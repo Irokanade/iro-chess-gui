@@ -10,4 +10,11 @@ public class WhiteKnight extends Piece {
 
         image = getImage("/piece/w-knight");
     }
+
+    public WhiteKnight(int col, int row) {
+        super(col, row);
+        piece = PieceEnum.N;
+
+        image = getImage("/piece/w-knight");
+    }
 }
