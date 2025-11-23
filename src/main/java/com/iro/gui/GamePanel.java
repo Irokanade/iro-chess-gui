@@ -51,7 +51,7 @@ public class GamePanel extends JPanel implements Runnable {
     private boolean playAgainstComputer = true;
     public UciClient uciClient;
 
-    public GamePanel() {
+    public GamePanel(String computerSide) {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
         addMouseMotionListener(mouse);
@@ -61,11 +61,23 @@ public class GamePanel extends JPanel implements Runnable {
         copyPieces(board, simPieces);
         board.generateMoves(moveList);
 
-        uciClient = new UciClient();
-        try {
-            uciClient.start();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
+        if (playAgainstComputer) {
+            uciClient = new UciClient();
+            try {
+                uciClient.start();
+                if (computerSide.equals("white")) {
+                    String bestMove = uciClient.getBestMove(historyMoveList);
+                    System.out.println(bestMove);
+                    int engineMove = board.parseMove(bestMove.substring(9));
+                    board.makeMove(engineMove, MoveTypeEnum.ALL_MOVES);
+                    board.addMove(historyMoveList, engineMove);
+
+                    board.generateMoves(moveList);
+                    copyPieces(board, simPieces);
+                }
+            } catch (IOException e) {
+                System.out.println(e.getMessage());
+            }
         }
     }
 
