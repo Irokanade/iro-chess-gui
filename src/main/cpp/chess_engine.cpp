@@ -39,7 +39,7 @@ void perftdiv(Position& p, unsigned int depth) {
 		std::cout << move;
 
 		p.play<Us>(move);
-		pf = perft<~Us>(p, depth - 1);
+		pf = perft<color_invert(Us)>(p, depth - 1);
 		std::cout << ": " << pf << " moves\n";
 		nodes += pf;
 		p.undo<Us>(move);

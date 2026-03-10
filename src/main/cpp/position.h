@@ -133,7 +133,7 @@ public:
 	template<Color C> inline Bitboard attackers_from(Square s, Bitboard occ) const;
 
 	template<Color C> inline bool in_check() const {
-		return attackers_from<~C>(bsf(bitboard_of(C, KING)), all_pieces<WHITE>() | all_pieces<BLACK>());
+		return attackers_from<color_invert(C)>(bsf(bitboard_of(C, KING)), all_pieces<WHITE>() | all_pieces<BLACK>());
 	}
 
 	template<Color C> void play(Move m);
