@@ -3,6 +3,7 @@ package com.iro.piece;
 import com.iro.board.Board;
 import com.iro.board.PieceEnum;
 import com.iro.board.SquareEnum;
+import com.iro.gui.GamePanel;
 
 import javax.imageio.ImageIO;
 import java.awt.Graphics2D;
@@ -51,11 +52,13 @@ public class Piece {
 
     public int getX(SquareEnum square) {
         int col = square.ordinal() % 8;
+        if (GamePanel.boardFlipped) col = 7 - col;
         return col * Board.SQUARE_SIZE;
     }
 
     public int getY(SquareEnum square) {
         int row = square.ordinal() / 8;
+        if (GamePanel.boardFlipped) row = 7 - row;
         return row * Board.SQUARE_SIZE;
     }
 
@@ -92,7 +95,13 @@ public class Piece {
     }
 
     public void setSquare(int x, int y) {
-        square = SquareEnum.intToSquare(getRow(y) * 8 + getCol(x));
+        int col = getCol(x);
+        int row = getRow(y);
+        if (GamePanel.boardFlipped) {
+            col = 7 - col;
+            row = 7 - row;
+        }
+        square = SquareEnum.intToSquare(row * 8 + col);
     }
 
     public void setPosition(SquareEnum square) {

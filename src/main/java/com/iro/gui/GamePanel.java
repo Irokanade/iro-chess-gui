@@ -50,8 +50,10 @@ public class GamePanel extends JPanel implements Runnable {
 
     private boolean playAgainstComputer = true;
     public UciClient uciClient;
+    public static boolean boardFlipped = false;
 
     public GamePanel(String computerSide) {
+        boardFlipped = computerSide.equals("white");
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
         addMouseMotionListener(mouse);
@@ -132,8 +134,9 @@ public class GamePanel extends JPanel implements Runnable {
             if (activePiece == null) {
                 for (Piece piece : simPieces) {
                     if (piece.getSquare() ==
-                            SquareEnum.coordToSquare(mouse.x / Board.SQUARE_SIZE,
-                                mouse.y / Board.SQUARE_SIZE)) {
+                            SquareEnum.coordToSquare(
+                                boardFlipped ? 7 - mouse.x / Board.SQUARE_SIZE : mouse.x / Board.SQUARE_SIZE,
+                                boardFlipped ? 7 - mouse.y / Board.SQUARE_SIZE : mouse.y / Board.SQUARE_SIZE)) {
                         activePiece = piece;
                         activePiece.setPreSquare(piece.getSquare());
                     }
