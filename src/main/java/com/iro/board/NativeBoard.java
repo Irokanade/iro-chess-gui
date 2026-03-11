@@ -91,8 +91,4 @@ public class NativeBoard {
         }
         return 0;
     }
-
-    public void addMove(Moves moveList, int move) {
-        moveList.moves[moveList.count++] = move;
-    }
 }

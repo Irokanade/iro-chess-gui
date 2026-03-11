@@ -67,23 +67,22 @@ public class GamePanel extends JPanel implements Runnable {
 
         board.createPosition();
         board.setFen(NativeBoard.START_POSITION);
-        copyPieces(board, simPieces);
-        board.generateMoves(moveList);
 
         if (playAgainstComputer) {
             uciClient = new UciClient();
             try {
                 uciClient.start();
-                if (computerSide.equals("white")) {
-                    computerMakeMove(board, uciClient, historyMoveList);
-
-                    board.generateMoves(moveList);
-                    copyPieces(board, simPieces);
-                }
             } catch (IOException e) {
                 System.out.println(e.getMessage());
             }
+
+            if (computerSide.equals("white")) {
+                computerMakeMove();
+            }
         }
+
+        board.generateMoves(moveList);
+        copyPieces(board, simPieces);
     }
 
     public void launchGame() {
@@ -120,16 +119,16 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
-    public void computerMakeMove(
-        NativeBoard board,
-        UciClient uciClient,
-        Moves historyMoveList)
-    {
+    private void playMove(int move) {
+        board.makeMove(move);
+        historyMoveList.moves[historyMoveList.count++] = move;
+    }
+
+    public void computerMakeMove() {
         String bestMove = uciClient.getBestMove(historyMoveList);
         System.out.println(bestMove);
         int engineMove = board.parseMove(bestMove.substring(9));
-        board.makeMove(engineMove);
-        board.addMove(historyMoveList, engineMove);
+        playMove(engineMove);
     }
 
     @Override
@@ -202,12 +201,11 @@ public class GamePanel extends JPanel implements Runnable {
                         return;
                     }
 
-                    board.makeMove(moveList.moves[i]);
-                    board.addMove(historyMoveList, moveList.moves[i]);
+                    playMove(moveList.moves[i]);
                     legalMove = true;
 
                     if (playAgainstComputer) {
-                        computerMakeMove(board, uciClient, historyMoveList);
+                        computerMakeMove();
                     }
 
                     board.generateMoves(moveList);
@@ -253,11 +251,10 @@ public class GamePanel extends JPanel implements Runnable {
                             Moves.isPromotion(move) &&
                             Moves.getPromotionPieceType(move) == promoType) {
 
-                            board.makeMove(move);
-                            board.addMove(historyMoveList, move);
+                            playMove(move);
 
                             if (playAgainstComputer) {
-                                computerMakeMove(board, uciClient, historyMoveList);
+                                computerMakeMove();
                             }
 
                             board.generateMoves(moveList);

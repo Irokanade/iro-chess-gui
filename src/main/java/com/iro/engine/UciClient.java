@@ -29,8 +29,8 @@ public class UciClient {
             throw new IOException("Engine binary not found at: " + enginePath);
         }
 
-        if (!engineFile.canExecute()) {
-            engineFile.setExecutable(true);
+        if (!engineFile.canExecute() || !engineFile.setExecutable(true)) {
+            throw new IOException("Engine binary execution failed");
         }
 
         ProcessBuilder processBuilder = new ProcessBuilder(enginePath);
