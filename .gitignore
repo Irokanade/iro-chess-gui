@@ -38,8 +38,9 @@ bin/
 ### VS Code ###
 .vscode/
 
-### C++ build ###
+### C++ ###
 src/main/cpp/build/
+src/main/cpp/.cache/
 
 ### Mac OS ###
 .DS_Store

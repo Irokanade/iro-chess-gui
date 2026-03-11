@@ -20,8 +20,8 @@ extern void initialise_rook_attacks();
 
 
 constexpr Bitboard get_rook_attacks(Square square, Bitboard occ) {
-	return ROOK_ATTACKS[square][((occ & ROOK_ATTACK_MASKS[square]) * ROOK_MAGICS[square])
-		>> ROOK_ATTACK_SHIFTS[square]];
+    return ROOK_ATTACKS[square][((occ & ROOK_ATTACK_MASKS[square]) * ROOK_MAGICS[square])
+        >> ROOK_ATTACK_SHIFTS[square]];
 }
 extern Bitboard get_xray_rook_attacks(Square square, Bitboard occ, Bitboard blockers);
 
@@ -34,8 +34,8 @@ extern void initialise_bishop_attacks();
 
 
 constexpr Bitboard get_bishop_attacks(Square square, Bitboard occ) {
-	return BISHOP_ATTACKS[square][((occ & BISHOP_ATTACK_MASKS[square]) * BISHOP_MAGICS[square])
-		>> BISHOP_ATTACK_SHIFTS[square]];
+    return BISHOP_ATTACKS[square][((occ & BISHOP_ATTACK_MASKS[square]) * BISHOP_MAGICS[square])
+        >> BISHOP_ATTACK_SHIFTS[square]];
 }
 extern Bitboard get_xray_bishop_attacks(Square square, Bitboard occ, Bitboard blockers);
 
@@ -53,39 +53,39 @@ extern void initialise_all_databases();
 //Returns a bitboard containing all squares that a piece on a square can move to, in the given position
 template<PieceType P>
 constexpr Bitboard attacks(Square s, Bitboard occ) {
-	static_assert(P != PAWN, "The piece type may not be a pawn; use pawn_attacks instead");
-	return P == ROOK ? get_rook_attacks(s, occ) :
-		P == BISHOP ? get_bishop_attacks(s, occ) :
-		P == QUEEN ? attacks<ROOK>(s, occ) | attacks<BISHOP>(s, occ) :
-		PSEUDO_LEGAL_ATTACKS[P][s];
+    static_assert(P != PAWN, "The piece type may not be a pawn; use pawn_attacks instead");
+    return P == ROOK ? get_rook_attacks(s, occ) :
+        P == BISHOP ? get_bishop_attacks(s, occ) :
+        P == QUEEN ? attacks<ROOK>(s, occ) | attacks<BISHOP>(s, occ) :
+        PSEUDO_LEGAL_ATTACKS[P][s];
 }
 
 //Returns a bitboard containing all squares that a piece on a square can move to, in the given position
 //Used when the piece type is not known at compile-time
 constexpr Bitboard attacks(PieceType pt, Square s, Bitboard occ) {
-	switch (pt) {
-	case ROOK:
-		return attacks<ROOK>(s, occ);
-	case BISHOP:
-		return attacks<BISHOP>(s, occ);
-	case QUEEN:
-		return attacks<QUEEN>(s, occ);
-	default:
-		return PSEUDO_LEGAL_ATTACKS[pt][s];
-	}
+    switch (pt) {
+    case ROOK:
+        return attacks<ROOK>(s, occ);
+    case BISHOP:
+        return attacks<BISHOP>(s, occ);
+    case QUEEN:
+        return attacks<QUEEN>(s, occ);
+    default:
+        return PSEUDO_LEGAL_ATTACKS[pt][s];
+    }
 }
 
 //Returns a bitboard containing pawn attacks from all pawns in the given bitboard
 template<Color C>
 constexpr Bitboard pawn_attacks(Bitboard p) {
-	return C == WHITE ? shift<NORTH_WEST>(p) | shift<NORTH_EAST>(p) :
-		shift<SOUTH_WEST>(p) | shift<SOUTH_EAST>(p);
+    return C == WHITE ? shift<NORTH_WEST>(p) | shift<NORTH_EAST>(p) :
+        shift<SOUTH_WEST>(p) | shift<SOUTH_EAST>(p);
 }
 
 //Returns a bitboard containing pawn attacks from the pawn on the given square
 template<Color C>
 constexpr Bitboard pawn_attacks(Square s) {
-	return PAWN_ATTACKS[C][s];
+    return PAWN_ATTACKS[C][s];
 }
 
 #endif // TABLES_H
