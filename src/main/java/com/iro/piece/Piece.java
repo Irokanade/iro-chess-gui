@@ -31,8 +31,8 @@ public class Piece {
         // used for piece gui
         piece = null;
         square = null;
-        x = col * Board.SQUARE_SIZE;
-        y = row * Board.SQUARE_SIZE;
+        x = col * GamePanel.SQUARE_SIZE;
+        y = row * GamePanel.SQUARE_SIZE;
         preSquare = null;
     }
 
@@ -53,13 +53,13 @@ public class Piece {
     public int getX(SquareEnum square) {
         int col = square.ordinal() % 8;
         if (GamePanel.boardFlipped) col = 7 - col;
-        return col * Board.SQUARE_SIZE;
+        return col * GamePanel.SQUARE_SIZE;
     }
 
     public int getY(SquareEnum square) {
         int row = square.ordinal() / 8;
         if (GamePanel.boardFlipped) row = 7 - row;
-        return row * Board.SQUARE_SIZE;
+        return row * GamePanel.SQUARE_SIZE;
     }
 
     public int getX() {
@@ -71,19 +71,19 @@ public class Piece {
     }
 
     public int getCol(int x) {
-        return (x + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
+        return (x + GamePanel.HALF_SQUARE_SIZE)/ GamePanel.SQUARE_SIZE;
     }
 
     public int getRow(int y) {
-        return (y + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
+        return (y + GamePanel.HALF_SQUARE_SIZE)/ GamePanel.SQUARE_SIZE;
     }
 
     public int getCol() {
-        return (x + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
+        return (x + GamePanel.HALF_SQUARE_SIZE)/ GamePanel.SQUARE_SIZE;
     }
 
     public int getRow() {
-        return (y + Board.HALF_SQUARE_SIZE)/ Board.SQUARE_SIZE;
+        return (y + GamePanel.HALF_SQUARE_SIZE)/ GamePanel.SQUARE_SIZE;
     }
 
     public PieceEnum getPiece() {
@@ -139,6 +139,6 @@ public class Piece {
     }
 
     public void draw(Graphics2D graphics2d) {
-        graphics2d.drawImage(image, x, y, Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
+        graphics2d.drawImage(image, x, y, GamePanel.SQUARE_SIZE, GamePanel.SQUARE_SIZE, null);
     }
 }

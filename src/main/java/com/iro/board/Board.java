@@ -1658,33 +1658,4 @@ public class Board {
         // return illegal move
         return 0;
     }
-
-    public final int MAX_COL = 8;
-    public final int MAX_ROW = 8;
-    public static final int SQUARE_SIZE = 100;
-    public static final int HALF_SQUARE_SIZE = SQUARE_SIZE / 2;
-
-    public void draw(Graphics2D graphics2d) {
-        int c = 0;
-
-        for (int i = 0; i < MAX_ROW; i++) {
-            for (int j = 0; j < MAX_COL; j++) {
-                if (c == 0) {
-                    graphics2d.setColor(new Color(210, 165, 125));
-                    c = 1;
-                } else {
-                    graphics2d.setColor(new Color(175, 115, 70 ));
-                    c = 0;
-                }
-
-                graphics2d.fillRect(j * SQUARE_SIZE, i * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
-            }
-
-            if (c == 0) {
-                c = 1;
-            } else {
-                c = 0;
-            }
-        }
-    }
 }

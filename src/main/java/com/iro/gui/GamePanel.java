@@ -32,6 +32,12 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static final int WIDTH = 1100;
     public static final int HEIGHT = 800;
+
+    public final int MAX_COL = 8;
+    public final int MAX_ROW = 8;
+    public static final int SQUARE_SIZE = 100;
+    public static final int HALF_SQUARE_SIZE = SQUARE_SIZE / 2;
+
     public final int FPS = 60;
     public Thread gameThread;
     private final Board board;
@@ -135,8 +141,8 @@ public class GamePanel extends JPanel implements Runnable {
                 for (Piece piece : simPieces) {
                     if (piece.getSquare() ==
                             SquareEnum.coordToSquare(
-                                boardFlipped ? 7 - mouse.x / Board.SQUARE_SIZE : mouse.x / Board.SQUARE_SIZE,
-                                boardFlipped ? 7 - mouse.y / Board.SQUARE_SIZE : mouse.y / Board.SQUARE_SIZE)) {
+                                boardFlipped ? 7 - mouse.x / SQUARE_SIZE : mouse.x / SQUARE_SIZE,
+                                boardFlipped ? 7 - mouse.y / SQUARE_SIZE : mouse.y / SQUARE_SIZE)) {
                         activePiece = piece;
                         activePiece.setPreSquare(piece.getSquare());
                     }
@@ -222,16 +228,16 @@ public class GamePanel extends JPanel implements Runnable {
 
     private void simulate() {
         // If a piece is being held, update its position
-        activePiece.x = mouse.x - Board.HALF_SQUARE_SIZE;
-        activePiece.y = mouse.y - Board.HALF_SQUARE_SIZE;
+        activePiece.x = mouse.x - HALF_SQUARE_SIZE;
+        activePiece.y = mouse.y - HALF_SQUARE_SIZE;
         activePiece.setSquare(activePiece.x, activePiece.y);
     }
 
     private void promoting() {
         if(mouse.pressed) {
             for(Piece piece : promoPieces) {
-                if(piece.getCol() == mouse.x / Board.SQUARE_SIZE &&
-                    piece.getRow() == mouse.y / Board.SQUARE_SIZE) {
+                if(piece.getCol() == mouse.x / SQUARE_SIZE &&
+                    piece.getRow() == mouse.y / SQUARE_SIZE) {
 
                     int move = board.encodeMove(
                         board.getMoveSource(promotionMove).ordinal(),
@@ -276,12 +282,36 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void drawBoard(Graphics2D graphics2d) {
+        int c = 0;
+
+        for (int i = 0; i < MAX_ROW; i++) {
+            for (int j = 0; j < MAX_COL; j++) {
+                if (c == 0) {
+                    graphics2d.setColor(new Color(210, 165, 125));
+                    c = 1;
+                } else {
+                    graphics2d.setColor(new Color(175, 115, 70 ));
+                    c = 0;
+                }
+
+                graphics2d.fillRect(j * SQUARE_SIZE, i * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+            }
+
+            if (c == 0) {
+                c = 1;
+            } else {
+                c = 0;
+            }
+        }
+    }
+
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2d = (Graphics2D) g;
 
         // Board
-        board.draw(graphics2d);
+        drawBoard(graphics2d);
 
         // Pieces
         for (Piece p : simPieces) {
@@ -320,7 +350,7 @@ public class GamePanel extends JPanel implements Runnable {
             graphics2d.drawString("Promoting to:", 840, 150);
             for(Piece piece : promoPieces) {
                 graphics2d.drawImage(piece.getImage(), piece.getX(), piece.getY(),
-                    Board.SQUARE_SIZE, Board.SQUARE_SIZE, null);
+                    SQUARE_SIZE, SQUARE_SIZE, null);
             }
         } else {
             if (board.getSide() == Board.SIDE_WHITE) {
