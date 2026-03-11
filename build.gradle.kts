@@ -17,10 +17,12 @@ dependencies {
 
 application {
     mainClass.set("com.iro.Main")
+    applicationDefaultJvmArgs = listOf("-Djava.library.path=src/main/cpp/build")
 }
 
 tasks.named<JavaExec>("run") {
     standardInput = System.`in`
+    jvmArgs("-Djava.library.path=src/main/cpp/build")
 }
 
 tasks.test {

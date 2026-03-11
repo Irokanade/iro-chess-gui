@@ -4,12 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/Board.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/Board.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeMoveGen.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeMoveGen.java" afterDir="false" />
+    <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)">
+      <change beforePath="$PROJECT_DIR$/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeBoard.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/piece/Piece.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/piece/Piece.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -60,6 +59,9 @@
     &quot;accountId&quot;: &quot;d9045b1b-39ed-462b-b254-ed1fe80bcd3a&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 4
 }</component>
@@ -71,6 +73,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Gradle.Build iro-chess-gui.executor": "Run",
     "Gradle.iro-chess-gui [:com.iro.Main.main()].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
@@ -95,6 +98,7 @@
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.iro.Main" />
       <module name="iro-chess-gui.main" />
+      <option name="VM_PARAMETERS" value="-Djava.library.path=src/main/cpp/build" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.iro.*" />
@@ -139,10 +143,57 @@
       <option name="presentableId" value="Default" />
       <updated>1759934031277</updated>
       <workItem from="1773195418716" duration="4793000" />
+      <workItem from="1773200273782" duration="4804000" />
+      <workItem from="1773209529085" duration="1528000" />
     </task>
+    <task id="LOCAL-00001" summary="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)">
+      <option name="closed" value="true" />
+      <created>1773201509089</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1773201509089</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)">
+      <option name="closed" value="true" />
+      <created>1773201518734</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1773201518734</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="refactor: realign java square enum to match c++ movegen square enum" />
+    <MESSAGE value="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)" />
+    <option name="LAST_COMMIT_MESSAGE" value="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)" />
   </component>
 </project>

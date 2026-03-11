@@ -1,9 +1,8 @@
 package com.iro.gui;
 
 import com.iro.board.Board;
-import com.iro.board.BoardState;
-import com.iro.board.MoveTypeEnum;
 import com.iro.board.Moves;
+import com.iro.board.NativeBoard;
 import com.iro.board.PieceEnum;
 import com.iro.board.SquareEnum;
 import com.iro.engine.UciClient;
@@ -40,7 +39,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int FPS = 60;
     public Thread gameThread;
-    private final Board board;
+    private final NativeBoard board = new NativeBoard();
     public Mouse mouse = new Mouse();
 
     public static ArrayList<Piece> simPieces = new ArrayList<Piece>();
@@ -50,7 +49,8 @@ public class GamePanel extends JPanel implements Runnable {
     public static Moves moveList = new Moves();
     public static Moves historyMoveList = new Moves();
 
-    public int promotionMove;
+    public SquareEnum promotionSource;
+    public SquareEnum promotionTarget;
     public boolean gameOver;
     public boolean stalemate;
 
@@ -65,7 +65,8 @@ public class GamePanel extends JPanel implements Runnable {
         addMouseMotionListener(mouse);
         addMouseListener(mouse);
 
-        board = new Board();
+        board.createPosition();
+        board.setFen(NativeBoard.START_POSITION);
         copyPieces(board, simPieces);
         board.generateMoves(moveList);
 
@@ -74,11 +75,7 @@ public class GamePanel extends JPanel implements Runnable {
             try {
                 uciClient.start();
                 if (computerSide.equals("white")) {
-                    String bestMove = uciClient.getBestMove(historyMoveList);
-                    System.out.println(bestMove);
-                    int engineMove = board.parseMove(bestMove.substring(9));
-                    board.makeMove(engineMove, MoveTypeEnum.ALL_MOVES);
-                    board.addMove(historyMoveList, engineMove);
+                    computerMakeMove(board, uciClient, historyMoveList);
 
                     board.generateMoves(moveList);
                     copyPieces(board, simPieces);
@@ -111,6 +108,30 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    public void copyPieces(NativeBoard board, ArrayList<Piece> target) {
+        target.clear();
+        PieceFactory pieceFactory = new PieceFactory();
+
+        for (int square = 0; square < 64; square++) {
+            PieceEnum piece = board.pieceAt(square);
+            if (piece != null) {
+                target.add(pieceFactory.createPiece(piece, SquareEnum.intToSquare(square)));
+            }
+        }
+    }
+
+    public void computerMakeMove(
+        NativeBoard board,
+        UciClient uciClient,
+        Moves historyMoveList)
+    {
+        String bestMove = uciClient.getBestMove(historyMoveList);
+        System.out.println(bestMove);
+        int engineMove = board.parseMove(bestMove.substring(9));
+        board.makeMove(engineMove);
+        board.addMove(historyMoveList, engineMove);
+    }
+
     @Override
     public void run() {
         double drawInterval = (double) 1000000000 / FPS;
@@ -131,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void update() {
-        if (promotionMove != 0) {
+        if (promotionSource != null) {
             promoting();
             return;
         }
@@ -155,70 +176,56 @@ public class GamePanel extends JPanel implements Runnable {
         if (!mouse.pressed && activePiece != null) {
             boolean legalMove = false;
             for (int i = 0; i < moveList.count; i++) {
-                SquareEnum sourceSquare = board.getMoveSource(moveList.moves[i]);
-                SquareEnum targetSquare = board.getMoveTarget(moveList.moves[i]);
+                SquareEnum sourceSquare = Moves.getMoveSource(moveList.moves[i]);
+                SquareEnum targetSquare = Moves.getMoveTarget(moveList.moves[i]);
 
                 if (activePiece.getPreSquare() == sourceSquare &&
                     activePiece.getSquare() == targetSquare) {
 
-                    if (board.getMovePromoted(moveList.moves[i]).ordinal() != 0) {
-                        // handle promotion
-                        BoardState boardState = board.copyBoard();
-                        promotionMove = board.makeMove(moveList.moves[i], MoveTypeEnum.ALL_MOVES) ?
-                            moveList.moves[i] : 0;
-                        board.takeBack(boardState);
+                    if (Moves.isPromotion(moveList.moves[i])) {
+                        promotionSource = sourceSquare;
+                        promotionTarget = targetSquare;
 
-                        // setup promotion pieces ui
-                        if (promotionMove != 0) {
-                            promoPieces.clear();
-                            if (board.getSide() == Board.SIDE_WHITE) {
-                                promoPieces.add(new WhiteRook(9, 2));
-                                promoPieces.add(new WhiteKnight(9, 3));
-                                promoPieces.add(new WhiteBishop(9, 4));
-                                promoPieces.add(new WhiteQueen(9, 5));
-                            } else {
-                                promoPieces.add(new BlackRook(9, 2));
-                                promoPieces.add(new BlackKnight(9, 3));
-                                promoPieces.add(new BlackBishop(9, 4));
-                                promoPieces.add(new BlackQueen(9, 5));
-                            }
+                        promoPieces.clear();
+                        if (board.getSide() == NativeBoard.SIDE_WHITE) {
+                            promoPieces.add(new WhiteRook(9, 2));
+                            promoPieces.add(new WhiteKnight(9, 3));
+                            promoPieces.add(new WhiteBishop(9, 4));
+                            promoPieces.add(new WhiteQueen(9, 5));
+                        } else {
+                            promoPieces.add(new BlackRook(9, 2));
+                            promoPieces.add(new BlackKnight(9, 3));
+                            promoPieces.add(new BlackBishop(9, 4));
+                            promoPieces.add(new BlackQueen(9, 5));
                         }
 
                         return;
                     }
 
-                    legalMove = board.makeMove(moveList.moves[i], MoveTypeEnum.ALL_MOVES);
+                    board.makeMove(moveList.moves[i]);
+                    board.addMove(historyMoveList, moveList.moves[i]);
+                    legalMove = true;
 
-                    if (legalMove) {
-                        board.addMove(historyMoveList, moveList.moves[i]);
+                    if (playAgainstComputer) {
+                        computerMakeMove(board, uciClient, historyMoveList);
+                    }
 
-                        if (playAgainstComputer) {
-                            String bestMove = uciClient.getBestMove(historyMoveList);
-                            System.out.println(bestMove);
-                            int engineMove = board.parseMove(bestMove.substring(9));
-                            board.makeMove(engineMove, MoveTypeEnum.ALL_MOVES);
-                            board.addMove(historyMoveList, engineMove);
-                        }
+                    board.generateMoves(moveList);
+                    copyPieces(board, simPieces);
 
-                        board.generateMoves(moveList);
-                        copyPieces(board, simPieces);
-
-                        if (!board.hasLegalMoves(moveList)) {
-                            if (board.isSquareAttacked(
-                                    (board.getSide() == Board.SIDE_WHITE) ?
-                                            board.getLsbIndex(board.getBitboards()[PieceEnum.K.ordinal()]):
-                                            board.getLsbIndex(board.getBitboards()[PieceEnum.k.ordinal()]),
-                            board.getSide()^1)) {
-                                gameOver = true;
-                            } else {
-                                stalemate = true;
-                            }
+                    if (!board.hasLegalMoves(moveList)) {
+                        if (board.isInCheck()) {
+                            gameOver = true;
+                        } else {
+                            stalemate = true;
                         }
                     }
+
+                    break;
                 }
             }
 
-            if (!legalMove) {
+            if (!legalMove && promotionSource == null) {
                 activePiece.setPosition(activePiece.getPreSquare());
             }
 
@@ -227,51 +234,67 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void simulate() {
-        // If a piece is being held, update its position
         activePiece.x = mouse.x - HALF_SQUARE_SIZE;
         activePiece.y = mouse.y - HALF_SQUARE_SIZE;
         activePiece.setSquare(activePiece.x, activePiece.y);
     }
 
     private void promoting() {
-        if(mouse.pressed) {
-            for(Piece piece : promoPieces) {
-                if(piece.getCol() == mouse.x / SQUARE_SIZE &&
+        if (mouse.pressed) {
+            for (Piece piece : promoPieces) {
+                if (piece.getCol() == mouse.x / SQUARE_SIZE &&
                     piece.getRow() == mouse.y / SQUARE_SIZE) {
 
-                    int move = board.encodeMove(
-                        board.getMoveSource(promotionMove).ordinal(),
-                        board.getMoveTarget(promotionMove).ordinal(),
-                        board.getMovePiece(promotionMove),
-                        piece.getPiece().ordinal(),
-                        board.getMoveCapture(promotionMove)? 1 : 0,
-                        board.getMoveDouble(promotionMove)? 1 : 0,
-                        board.getMoveEnpassant(promotionMove)? 1 : 0,
-                        board.getMoveCastling(promotionMove)? 1 : 0
-                    );
+                    int promoType = pieceToPromoType(piece.getPiece());
+                    for (int i = 0; i < moveList.count; i++) {
+                        int move = moveList.moves[i];
+                        if (Moves.getMoveSource(move) == promotionSource &&
+                            Moves.getMoveTarget(move) == promotionTarget &&
+                            Moves.isPromotion(move) &&
+                            Moves.getPromotionPieceType(move) == promoType) {
 
-                    board.makeMove(move, MoveTypeEnum.ALL_MOVES);
-                    board.addMove(historyMoveList, move);
+                            board.makeMove(move);
+                            board.addMove(historyMoveList, move);
 
-                    if (playAgainstComputer) {
-                        String bestMove = uciClient.getBestMove(historyMoveList);
-                        System.out.println(bestMove);
-                        int engineMove = board.parseMove(bestMove.substring(9));
-                        board.makeMove(engineMove, MoveTypeEnum.ALL_MOVES);
-                        board.addMove(historyMoveList, engineMove);
+                            if (playAgainstComputer) {
+                                computerMakeMove(board, uciClient, historyMoveList);
+                            }
+
+                            board.generateMoves(moveList);
+                            copyPieces(board, simPieces);
+
+                            promotionSource = null;
+                            promotionTarget = null;
+                            activePiece = null;
+                            break;
+                        }
                     }
-
-                    copyPieces(board, simPieces);
-                    board.generateMoves(moveList);
-
-                    promotionMove = 0;
-                    activePiece = null;
                 }
             }
         }
     }
 
+    private int pieceToPromoType(PieceEnum piece) {
+        switch (piece) {
+            case N:
+            case n:
+                return 0;
+            case B:
+            case b:
+                return 1;
+            case R:
+            case r:
+                return 2;
+            case Q:
+            case q:
+                return 3;
+            default: return -1;
+        }
+    }
+
     public void cleanup() {
+        board.destroyPosition();
+
         if (uciClient != null) {
             uciClient.close();
             uciClient = null;
@@ -310,50 +333,46 @@ public class GamePanel extends JPanel implements Runnable {
         super.paintComponent(g);
         Graphics2D graphics2d = (Graphics2D) g;
 
-        // Board
         drawBoard(graphics2d);
 
-        // Pieces
         for (Piece p : simPieces) {
             p.draw(graphics2d);
         }
-//
+
 //        if (activePiece != null) {
 //            if (canMove) {
 //                if(isIllegal(activePiece) || opponentCanCaptureKing()) {
 //                    graphics2d.setColor(Color.gray);
 //                    graphics2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
-//                    graphics2d.fillRect(activePiece.col*Board.SQUARE_SIZE, activePiece.row*Board.SQUARE_SIZE,
-//                        Board.SQUARE_SIZE, Board.SQUARE_SIZE);
+//                    graphics2d.fillRect(activePiece.col*SQUARE_SIZE, activePiece.row*SQUARE_SIZE,
+//                        SQUARE_SIZE, SQUARE_SIZE);
 //                    graphics2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 //                } else {
 //                    graphics2d.setColor(Color.white);
 //                    graphics2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.7f));
-//                    graphics2d.fillRect(activePiece.col*Board.SQUARE_SIZE, activePiece.row*Board.SQUARE_SIZE,
-//                        Board.SQUARE_SIZE, Board.SQUARE_SIZE);
+//                    graphics2d.fillRect(activePiece.col*SQUARE_SIZE, activePiece.row*SQUARE_SIZE,
+//                        SQUARE_SIZE, SQUARE_SIZE);
 //                    graphics2d.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 //                }
 //            }
-//
 //
 //            // Draw the active piece in the end so it won't be hidden
 //            // by the board or the colored square
 //            activePiece.draw(graphics2d);
 //        }
-//
-        // status messages
+
         graphics2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         graphics2d.setFont(new Font("Book Antique", Font.PLAIN, 40));
         graphics2d.setColor(Color.WHITE);
 
-        if(promotionMove != 0) {
+        if (promotionSource != null) {
             graphics2d.drawString("Promoting to:", 840, 150);
-            for(Piece piece : promoPieces) {
+            for (Piece piece : promoPieces) {
                 graphics2d.drawImage(piece.getImage(), piece.getX(), piece.getY(),
                     SQUARE_SIZE, SQUARE_SIZE, null);
             }
         } else {
-            if (board.getSide() == Board.SIDE_WHITE) {
+            if (board.getSide() == NativeBoard.SIDE_WHITE) {
                 graphics2d.drawString("White's turn", 840, 550);
 //                if(checkingPiece != null && checkingPiece.color == BLACK) {
 //                    graphics2d.setColor(Color.red);
@@ -370,19 +389,14 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        if(gameOver) {
-            String s = "";
-            if(board.getSide() == Board.SIDE_BLACK) {
-                s = "White won!";
-            } else {
-                s = "Black won!";
-            }
+        if (gameOver) {
+            String s = board.getSide() == NativeBoard.SIDE_BLACK ? "White won!" : "Black won!";
             graphics2d.setFont(new Font("Arial", Font.PLAIN, 90));
             graphics2d.setColor(Color.green);
             graphics2d.drawString(s, 200, 420);
         }
 
-        if(stalemate) {
+        if (stalemate) {
             graphics2d.setFont(new Font("Arial", Font.PLAIN, 90));
             graphics2d.setColor(Color.lightGray);
             graphics2d.drawString("Stalemate", 200, 420);
