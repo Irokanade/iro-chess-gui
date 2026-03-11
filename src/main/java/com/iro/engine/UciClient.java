@@ -1,8 +1,6 @@
 package com.iro.engine;
 
 import com.iro.board.Moves;
-import com.iro.board.PieceEnum;
-import com.iro.board.SquareEnum;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -67,22 +65,8 @@ public class UciClient {
             positionCommand.append(" moves");
 
             for (int i = 0; i < historyMoveList.count; i++) {
-                int move = historyMoveList.moves[i];
-
-                SquareEnum source = Moves.getMoveSource(move);
-                SquareEnum target = Moves.getMoveTarget(move);
-
                 positionCommand.append(" ");
-                positionCommand.append(source.toString().toLowerCase());
-                positionCommand.append(target.toString().toLowerCase());
-
-                PieceEnum promoted = Moves.getMovePromoted(move);
-                if (promoted.ordinal()!= 0) {
-                    char promotionChar = promoted.name().toLowerCase().charAt(0);
-                    if (promotionChar != ' ') {
-                        positionCommand.append(promotionChar);
-                    }
-                }
+                positionCommand.append(Moves.toUci(historyMoveList.moves[i]));
             }
         }
 

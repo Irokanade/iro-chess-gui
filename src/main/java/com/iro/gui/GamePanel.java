@@ -140,7 +140,7 @@ public class GamePanel extends JPanel implements Runnable {
             if (activePiece == null) {
                 for (Piece piece : simPieces) {
                     if (piece.getSquare() ==
-                            SquareEnum.coordToSquare(
+                            SquareEnum.fromScreen(
                                 boardFlipped ? 7 - mouse.x / SQUARE_SIZE : mouse.x / SQUARE_SIZE,
                                 boardFlipped ? 7 - mouse.y / SQUARE_SIZE : mouse.y / SQUARE_SIZE)) {
                         activePiece = piece;

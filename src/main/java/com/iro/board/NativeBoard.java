@@ -6,6 +6,16 @@ public final class NativeBoard {
 
     private static long positionPtr;
 
+    // C++ Piece enum → Java PieceEnum mapping
+    // C++: WHITE_PAWN=0..WHITE_KING=5, BLACK_PAWN=8..BLACK_KING=13, NO_PIECE=14
+    // Java: P=0..K=5, p=6..k=11
+    private static final PieceEnum[] CPP_TO_JAVA_PIECE = {
+        PieceEnum.P, PieceEnum.N, PieceEnum.B, PieceEnum.R, PieceEnum.Q, PieceEnum.K,
+        null, null,
+        PieceEnum.p, PieceEnum.n, PieceEnum.b, PieceEnum.r, PieceEnum.q, PieceEnum.k,
+        null
+    };
+
     public static void createPosition() {
         positionPtr = NativeMoveGen.createPosition();
     }
@@ -16,6 +26,14 @@ public final class NativeBoard {
 
     public static void setFen(String fen) {
         NativeMoveGen.setFen(positionPtr, fen);
+    }
+
+    public static String getFen() {
+        return NativeMoveGen.getFen(positionPtr);
+    }
+
+    public static int getSide() {
+        return NativeMoveGen.getTurn(positionPtr);
     }
 
     public static void generateMoves(Moves moveList) {
@@ -33,31 +51,42 @@ public final class NativeBoard {
         return NativeMoveGen.isInCheck(positionPtr);
     }
 
-    public static int getSide() {
-        return NativeMoveGen.getTurn(positionPtr);  // 0=WHITE, 1=BLACK
+    public static boolean hasLegalMoves(Moves moveList) {
+        return moveList.count > 0;
+    }
+
+    public static PieceEnum pieceAt(int square) {
+        int cppPiece = NativeMoveGen.pieceAt(positionPtr, square);
+        if (cppPiece < 0 || cppPiece >= CPP_TO_JAVA_PIECE.length) {
+            return null;
+        }
+        return CPP_TO_JAVA_PIECE[cppPiece];
     }
 
     public static int parseMove(String uci) {
         int from = (uci.charAt(0) - 'a') + (uci.charAt(1) - '1') * 8;
         int to   = (uci.charAt(2) - 'a') + (uci.charAt(3) - '1') * 8;
 
-        // Find matching legal move
         int[] moves = NativeMoveGen.generateLegalMoves(positionPtr);
         for (int move : moves) {
             if ((move & 0x3f) == to && ((move >> 6) & 0x3f) == from) {
-                // If promotion, match the piece
+                // if has promotion
                 if (uci.length() == 5) {
-                    int flags = (move >> 12) & 0xf;
+                    int promoType = Moves.getPromotionPieceType(move);
                     char promo = uci.charAt(4);
-                    if (promo == 'n' && (flags & 0b0011) == 0b0000) return move;
-                    if (promo == 'b' && (flags & 0b0011) == 0b0001) return move;
-                    if (promo == 'r' && (flags & 0b0011) == 0b0010) return move;
-                    if (promo == 'q' && (flags & 0b0011) == 0b0011) return move;
+                    if (promo == 'n' && promoType == 0) return move;
+                    if (promo == 'b' && promoType == 1) return move;
+                    if (promo == 'r' && promoType == 2) return move;
+                    if (promo == 'q' && promoType == 3) return move;
                     continue;
                 }
                 return move;
             }
         }
         return 0;
+    }
+
+    public static void addMove(Moves moveList, int move) {
+        moveList.moves[moveList.count++] = move;
     }
 }

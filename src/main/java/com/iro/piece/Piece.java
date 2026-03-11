@@ -51,13 +51,13 @@ public class Piece {
     }
 
     public int getX(SquareEnum square) {
-        int col = square.ordinal() % 8;
+        int col = square.col();
         if (GamePanel.boardFlipped) col = 7 - col;
         return col * GamePanel.SQUARE_SIZE;
     }
 
     public int getY(SquareEnum square) {
-        int row = square.ordinal() / 8;
+        int row = square.row();
         if (GamePanel.boardFlipped) row = 7 - row;
         return row * GamePanel.SQUARE_SIZE;
     }
@@ -101,7 +101,7 @@ public class Piece {
             col = 7 - col;
             row = 7 - row;
         }
-        square = SquareEnum.intToSquare(row * 8 + col);
+        square = SquareEnum.fromScreen(col, row);
     }
 
     public void setPosition(SquareEnum square) {
