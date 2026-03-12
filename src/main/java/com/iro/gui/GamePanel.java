@@ -1,6 +1,7 @@
 package com.iro.gui;
 
 import com.iro.board.Board;
+import com.iro.board.CapturedPieces;
 import com.iro.board.Moves;
 import com.iro.board.NativeBoard;
 import com.iro.board.PieceEnum;
@@ -44,6 +45,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     public static ArrayList<Piece> simPieces = new ArrayList<Piece>();
     public ArrayList<Piece> promoPieces = new ArrayList<Piece>();
+    public CapturedPieces capturedPieces = new CapturedPieces();
     public Piece activePiece;
 
     public static Moves moveList = new Moves();
@@ -120,6 +122,21 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     private void playMove(int move) {
+        if (Moves.isCapture(move)) {
+            PieceEnum captured;
+            if (Moves.isEnPassant(move)) {
+                // En passant captured pawn is on the same file as target, same rank as source
+                captured = board.getSide() == NativeBoard.SIDE_WHITE ? PieceEnum.p : PieceEnum.P;
+            } else {
+                SquareEnum target = Moves.getMoveTarget(move);
+                captured = board.pieceAt(target.ordinal());
+            }
+
+            if (captured != null) {
+                capturedPieces.add(board.getSide(), captured);
+            }
+        }
+
         board.makeMove(move);
         historyMoveList.moves[historyMoveList.count++] = move;
     }

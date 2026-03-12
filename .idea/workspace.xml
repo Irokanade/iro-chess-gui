@@ -5,8 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)">
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeBoard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/NativeBoard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/engine/UciClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/engine/UciClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/board/Moves.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/board/Moves.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -144,7 +143,9 @@
       <workItem from="1773195418716" duration="4793000" />
       <workItem from="1773200273782" duration="4804000" />
       <workItem from="1773209529085" duration="2736000" />
-      <workItem from="1773218355137" duration="3402000" />
+      <workItem from="1773218355137" duration="3648000" />
+      <workItem from="1773280204963" duration="1000" />
+      <workItem from="1773280230562" duration="3023000" />
     </task>
     <task id="LOCAL-00001" summary="feat: add NativeBoard with C++ move format, align SquareEnum to C++ ordering (a1=0)">
       <option name="closed" value="true" />

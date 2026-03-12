@@ -46,6 +46,14 @@ public class Moves {
         return getMoveFlags(move) & 0b0011;
     }
 
+    public static boolean isCapture(int move) {
+        return (getMoveFlags(move) & 0b1000) != 0;
+    }
+
+    public static boolean isEnPassant(int move) {
+        return getMoveFlags(move) == 0b1010;
+    }
+
     public static String toUci(int move) {
         SquareEnum from = getMoveSource(move);
         SquareEnum to = getMoveTarget(move);
