@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="feat: store captured pieces">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/engine/UciClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/engine/UciClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/iro/gui/GamePanel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cpp/position.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cpp/position.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
