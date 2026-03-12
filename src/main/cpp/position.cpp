@@ -74,6 +74,13 @@ std::string Position::fen() const {
 
 //Updates a position according to an FEN string
 void Position::set(const std::string& fen, Position& p) {
+    //Clear existing state so set() can be called on an already-initialized position
+    memset(p.piece_bb, 0, sizeof(p.piece_bb));
+    std::fill(std::begin(p.board), std::end(p.board), NO_PIECE);
+    p.hash = 0;
+    p.game_ply = 0;
+    p.history[0] = UndoInfo();
+
     int square = a8;
     for (char ch : fen.substr(0, fen.find(' '))) {
         if (isdigit(ch)) {
@@ -107,6 +114,14 @@ void Position::set(const std::string& fen, Position& p) {
             p.history[p.game_ply].entry &= ~BLACK_OOO_MASK;
             break;
         }
+    }
+
+    //Parse en passant square from FEN
+    if (ss >> token && token != '-') {
+        int file = token - 'a';
+        ss >> token;
+        int rank = token - '1';
+        p.history[p.game_ply].epsq = Square(file + rank * 8);
     }
 }
     
