@@ -319,6 +319,18 @@ public class GamePanel extends JPanel implements Runnable {
         }
     }
 
+    private void drawCapturedPieces(Graphics2D graphics2d, int side, int startX, int startY) {
+        int size = SQUARE_SIZE / 2;
+        PieceFactory pieceFactory = new PieceFactory();
+
+        for (int i = 0; i < capturedPieces.count()[side]; i++) {
+            int x = startX + (i % 8) * (size + 5);
+            int y = startY + (i / 8) * (size + 5);
+            Piece p = pieceFactory.createPiece(capturedPieces.pieces()[side][i], SquareEnum.A1);
+            graphics2d.drawImage(p.getImage(), x, y, size, size, null);
+        }
+    }
+
     public void drawBoard(Graphics2D graphics2d) {
         int c = 0;
 
@@ -353,6 +365,9 @@ public class GamePanel extends JPanel implements Runnable {
             p.draw(graphics2d);
         }
 
+        drawCapturedPieces(graphics2d, NativeBoard.SIDE_WHITE, 820, 30);
+        drawCapturedPieces(graphics2d, NativeBoard.SIDE_BLACK, 820, HEIGHT - 90);
+
 //        if (activePiece != null) {
 //            if (canMove) {
 //                if(isIllegal(activePiece) || opponentCanCaptureKing()) {
@@ -385,23 +400,24 @@ public class GamePanel extends JPanel implements Runnable {
                 graphics2d.drawImage(piece.getImage(), piece.getX(), piece.getY(),
                     SQUARE_SIZE, SQUARE_SIZE, null);
             }
-        } else {
-            if (board.getSide() == NativeBoard.SIDE_WHITE) {
-                graphics2d.drawString("White's turn", 840, 550);
+        }
+//        else {
+//            if (board.getSide() == NativeBoard.SIDE_WHITE) {
+//                graphics2d.drawString("White's turn", 840, 550);
 //                if(checkingPiece != null && checkingPiece.color == BLACK) {
 //                    graphics2d.setColor(Color.red);
 //                    graphics2d.drawString("The King", 840, 650);
 //                    graphics2d.drawString("is in checkK!", 840, 700);
 //                }
-            } else {
-                graphics2d.drawString("Black's turn", 840, 250);
+//            } else {
+//                graphics2d.drawString("Black's turn", 840, 250);
 //                if(checkingPiece != null && checkingPiece.color == WHITE) {
 //                    graphics2d.setColor(Color.red);
 //                    graphics2d.drawString("The King", 840, 100);
 //                    graphics2d.drawString("is in checkK!", 840, 150);
 //                }
-            }
-        }
+//            }
+//        }
 
         if (gameOver) {
             String s = board.getSide() == NativeBoard.SIDE_BLACK ? "White won!" : "Black won!";
