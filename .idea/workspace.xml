@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="feat: store captured pieces">
-      <change beforePath="$PROJECT_DIR$/src/main/cpp/position.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cpp/position.cpp" afterDir="false" />
-    </list>
+    <list default="true" id="46250455-f89a-4bf8-9fae-58edc453f9bb" name="Changes" comment="feat: store captured pieces" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

@@ -6,9 +6,6 @@ https://github.com/Irokanade/iro-chess
 ## How to play
 Drag and drop the pieces to move them
 
-### Prerequisites
-- Java 21 or higher installed
-
 ### Running the Game
 ```bash
 ./gradlew run
