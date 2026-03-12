@@ -214,10 +214,6 @@ public:
         move = (flags << 12) | (from << 6) | to;
     }
 
-    Move(const std::string& move) {
-        this->move = (create_square(File(move[0] - 'a'), Rank(move[1] - '1')) << 6) |
-            create_square(File(move[2] - 'a'), Rank(move[3] - '1'));
-    }
 
     inline Square to() const { return Square(move & 0x3f); }
     inline Square from() const { return Square((move >> 6) & 0x3f); }
