@@ -22,8 +22,9 @@ std::ostream& operator<< (std::ostream& os, const Position& p) {
     os << t;
     for (int i = 56; i >= 0; i -= 8) {
         os << s << " " << i / 8 + 1 << " ";
-        for (int j = 0; j < 8; j++)
+        for (int j = 0; j < 8; j++) {
             os << "| " << PIECE_STR[p.board[i + j]] << " ";
+        }
         os << "| " << i / 8 + 1 << "\n";
     }
     os << s;
