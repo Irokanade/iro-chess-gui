@@ -5,7 +5,6 @@
 #include <ostream>
 #include <string>
 #include "tables.h"
-#include <utility>
 
 //A psuedorandom number generator
 //Source: Stockfish
