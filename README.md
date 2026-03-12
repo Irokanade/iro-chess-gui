@@ -63,5 +63,11 @@ The build also produces a `chess_engine` executable that runs a perft test to va
 *The main chess interface*
 
 ## Engines
-The default uses my custom engine, 
+The default uses my custom engine,
 if you want to use your own engine you may add the executables to the `/engines` folder under your current os
+
+## Acknowledgements
+The C++ move generator is based on [Surge](https://github.com/nkarve/surge) by nkarve, licensed under the MIT License.
+
+## License
+This project is licensed under the [MIT License](LICENSE).

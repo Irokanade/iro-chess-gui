@@ -5,7 +5,6 @@
 #include <string>
 #include <ostream>
 #include <iostream>
-#include <vector>
 
 // PIECE_STR[piece] is the algebraic chess representation of that piece
 const std::string PIECE_STR = "PNBRQK~>pnbrqk.";

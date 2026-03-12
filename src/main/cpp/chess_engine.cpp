@@ -4,9 +4,6 @@
 #include "position.h"
 #include "types.h"
 
-// based on the surge chess move generator
-// https://github.com/nkarve/surge/tree/master
-
 //Computes the perft of the position for a given depth, using bulk-counting
 //According to the https://www.chessprogramming.org/Perft site:
 //Perft is a debugging function to walk the move generation tree of strictly legal moves to count 
