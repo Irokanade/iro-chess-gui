@@ -368,8 +368,10 @@ public class GamePanel extends JPanel implements Runnable {
             p.draw(graphics2d);
         }
 
-        drawCapturedPieces(graphics2d, NativeBoard.SIDE_WHITE, 820, 30);
-        drawCapturedPieces(graphics2d, NativeBoard.SIDE_BLACK, 820, HEIGHT - 90);
+        int topSide = boardFlipped ? NativeBoard.SIDE_BLACK : NativeBoard.SIDE_WHITE;
+        int bottomSide = boardFlipped ? NativeBoard.SIDE_WHITE : NativeBoard.SIDE_BLACK;
+        drawCapturedPieces(graphics2d, topSide, 820, 30);
+        drawCapturedPieces(graphics2d, bottomSide, 820, HEIGHT - 90);
 
 //        if (activePiece != null) {
 //            if (canMove) {
