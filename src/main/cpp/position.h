@@ -482,7 +482,15 @@ Move* Position::generate_legals(Move* list) {
             //the checker. Only non-pinned pieces can capture it
             b1 = attackers_from<Us>(checker_square, all) & not_pinned;
             while (b1) {
-                *list++ = Move(pop_lsb(&b1), checker_square, CAPTURE);
+                s = pop_lsb(&b1);
+                if (type_of(board[s]) == PAWN && rank_of(s) == relative_rank<Us>(RANK7)) {
+                    *list++ = Move(s, checker_square, PC_QUEEN);
+                    *list++ = Move(s, checker_square, PC_ROOK);
+                    *list++ = Move(s, checker_square, PC_BISHOP);
+                    *list++ = Move(s, checker_square, PC_KNIGHT);
+                } else {
+                    *list++ = Move(s, checker_square, CAPTURE);
+                }
             }
 
             return list;
