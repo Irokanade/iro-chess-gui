@@ -6,24 +6,30 @@ import javax.swing.JFrame;
 
 public class Main {
     public static void main(String[] args) {
-        String computerSide = "black";
+        String opponent = "black";
+        int depth = 6;
 
-        if (args.length > 0) {
-            if (args[0].equals("white")) {
-                computerSide = args[0];
-            } else if (args[0].equals("black")) {
-                computerSide = args[0];
+        for (String arg : args) {
+            if (arg.startsWith("--opponent=")) {
+                opponent = arg.substring("--opponent=".length());
+            } else if (arg.startsWith("--depth=")) {
+                depth = Integer.parseInt(arg.substring("--depth=".length()));
             }
         }
 
-        System.out.println("Computer side: " + computerSide);
+        if (!opponent.equals("white") && !opponent.equals("black") && !opponent.equals("human")) {
+            System.out.println("Usage: --opponent=white|black|human --depth=<number>");
+            System.exit(1);
+        }
+
+        System.out.println("Opponent: " + opponent + ", Depth: " + depth);
 
         JFrame window = new JFrame("Iro Chess");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
         // Add GamePanel to the window
-        GamePanel gamePanel = new GamePanel(computerSide);
+        GamePanel gamePanel = new GamePanel(opponent, depth);
         window.add(gamePanel);
         window.pack();
         window.setLocationRelativeTo(null);

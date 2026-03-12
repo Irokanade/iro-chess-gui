@@ -10,13 +10,32 @@ Drag and drop the pieces to move them
 - Java 21 or higher installed
 
 ### Running the Game
-By default, the engine plays as Black if no argument is provided.
 ```bash
 ./gradlew run
 ```
-To start the game with the engine playing **as White**:
+
+### Options
+| Flag | Values | Default | Description |
+|------|--------|---------|-------------|
+| `--opponent` | `white`, `black`, `human` | `black` | Sets who the engine plays as, or `human` for two-player mode |
+| `--depth` | any positive integer | `6` | Sets the engine search depth |
+
+#### Examples
+Play against the engine (engine plays black):
 ```bash
-./gradlew run --args="white"
+./gradlew run --args="--opponent=black"
+```
+Play against the engine (engine plays white):
+```bash
+./gradlew run --args="--opponent=white"
+```
+Play against another human (no engine):
+```bash
+./gradlew run --args="--opponent=human"
+```
+Play against the engine at depth 10:
+```bash
+./gradlew run --args="--opponent=black --depth=10"
 ```
 
 ## C++ Move Generator

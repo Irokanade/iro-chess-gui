@@ -37,6 +37,18 @@ public class UciClient {
         this.process = processBuilder.start();
         this.reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         this.writer = new BufferedWriter(new OutputStreamWriter(process.getOutputStream()));
+
+        sendCommand("uci");
+        String line;
+        while ((line = readLine()) != null) {
+            System.out.println(line);
+            if (line.equals("uciok")) break;
+        }
+
+        sendCommand("isready");
+        while ((line = readLine()) != null) {
+            if (line.equals("readyok")) break;
+        }
     }
 
     public void sendCommand(String command) throws IOException {
@@ -58,7 +70,7 @@ public class UciClient {
         return bestMove;
     }
 
-    public String getBestMove(Moves historyMoveList) {
+    public String getBestMove(Moves historyMoveList, int depth) {
         StringBuilder positionCommand = new StringBuilder("position startpos");
 
         if (historyMoveList.count > 0) {
@@ -72,7 +84,7 @@ public class UciClient {
 
         try {
             sendCommand(positionCommand.toString());
-            sendCommand("go depth 6");
+            sendCommand("go depth " + depth);
 
             return readBestMove();
         } catch (IOException e) {

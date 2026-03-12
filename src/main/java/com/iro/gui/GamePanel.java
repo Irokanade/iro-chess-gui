@@ -56,12 +56,15 @@ public class GamePanel extends JPanel implements Runnable {
     public boolean gameOver;
     public boolean stalemate;
 
-    private boolean playAgainstComputer = true;
+    private boolean playAgainstComputer;
+    private int depth;
     public UciClient uciClient;
     public static boolean boardFlipped = false;
 
-    public GamePanel(String computerSide) {
-        boardFlipped = computerSide.equals("white");
+    public GamePanel(String opponent, int depth) {
+        playAgainstComputer = !opponent.equals("human");
+        this.depth = depth;
+        boardFlipped = opponent.equals("white");
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
         addMouseMotionListener(mouse);
@@ -78,7 +81,7 @@ public class GamePanel extends JPanel implements Runnable {
                 System.out.println(e.getMessage());
             }
 
-            if (computerSide.equals("white")) {
+            if (opponent.equals("white")) {
                 computerMakeMove();
             }
         }
@@ -142,7 +145,7 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void computerMakeMove() {
-        String bestMove = uciClient.getBestMove(historyMoveList);
+        String bestMove = uciClient.getBestMove(historyMoveList, depth);
         System.out.println(bestMove);
         int engineMove = board.parseMove(bestMove.substring(9));
         playMove(engineMove);
