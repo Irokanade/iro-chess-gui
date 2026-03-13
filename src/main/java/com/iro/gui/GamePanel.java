@@ -18,6 +18,7 @@ import com.iro.piece.WhiteKnight;
 import com.iro.piece.WhiteQueen;
 import com.iro.piece.WhiteRook;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -67,8 +68,19 @@ public class GamePanel extends JPanel implements Runnable {
         boardFlipped = opponent.equals("white");
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setBackground(Color.BLACK);
+        setLayout(null);
         addMouseMotionListener(mouse);
         addMouseListener(mouse);
+
+        JButton flipButton = new JButton("Flip Board");
+        flipButton.setBounds(850, 400, 120, 40);
+        flipButton.addActionListener(e -> {
+            boardFlipped = !boardFlipped;
+            for (Piece p : simPieces) {
+                p.setPosition(p.getSquare());
+            }
+        });
+        add(flipButton);
 
         board.createPosition();
         board.setFen(NativeBoard.START_POSITION);
