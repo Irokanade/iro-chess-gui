@@ -89,9 +89,7 @@ public:
         hash(0), pinned(0), checkers(0) {
         
         //Sets all squares on the board as empty
-        for (int i = 0; i < 64; i++) {
-            board[i] = NO_PIECE;
-        }
+        std::fill(std::begin(board), std::end(board), NO_PIECE);
         history[0] = UndoInfo();
     }
     
