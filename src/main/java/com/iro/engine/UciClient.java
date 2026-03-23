@@ -21,6 +21,10 @@ public class UciClient {
         this.enginePath = projectRoot + "/engine/" + os + "/iro-chess" + getExecutableExtension();
     }
 
+    public UciClient(String enginePath) {
+        this.enginePath = enginePath;
+    }
+
     public void start() throws IOException {
         System.out.println("Running engine from " + enginePath);
 

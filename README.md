@@ -16,6 +16,7 @@ Drag and drop the pieces to move them
 |------|--------|---------|-------------|
 | `--opponent` | `white`, `black`, `human` | `black` | Sets who the engine plays as, or `human` for two-player mode |
 | `--depth` | any positive integer | `6` | Sets the engine search depth |
+| `--engine` | path to executable | built-in | Path to a UCI-compliant chess engine |
 
 #### Examples
 Play against the engine (engine plays black):
@@ -34,12 +35,16 @@ Play against the engine at depth 10:
 ```bash
 ./gradlew run --args="--opponent=black --depth=10"
 ```
+Use a custom UCI engine (e.g. Stockfish):
+```bash
+./gradlew run --args="--engine=/usr/local/bin/stockfish"
+```
 
 ## C++ Move Generator
 The move generator is written in C++ and exposed to Java via JNI. You need to build the shared library before running the game.
 
 ### Prerequisites
-- CMake 3.15 or higher
+- CMake 3.24 or higher
 - A C++17 compatible compiler
 - JDK 21 or higher (for JNI headers)
 
@@ -63,8 +68,7 @@ The build also produces a `chess_engine` executable that runs a perft test to va
 *The main chess interface*
 
 ## Engines
-The default uses my custom engine,
-if you want to use your own engine you may add the executables to the `/engines` folder under your current os
+The default uses the built-in [iro-chess](https://github.com/Irokanade/iro-chess) engine. Any UCI-compliant engine can be used instead via the `--engine` flag.
 
 ## Acknowledgements
 The C++ move generator is derived from [Surge](https://github.com/nkarve/surge) by nkarve, licensed under the MIT License.

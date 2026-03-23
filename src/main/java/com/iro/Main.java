@@ -8,28 +8,32 @@ public class Main {
     public static void main(String[] args) {
         String opponent = "black";
         int depth = 6;
+        String enginePath = null;
 
         for (String arg : args) {
             if (arg.startsWith("--opponent=")) {
                 opponent = arg.substring("--opponent=".length());
             } else if (arg.startsWith("--depth=")) {
                 depth = Integer.parseInt(arg.substring("--depth=".length()));
+            } else if (arg.startsWith("--engine=")) {
+                enginePath = arg.substring("--engine=".length());
             }
         }
 
         if (!opponent.equals("white") && !opponent.equals("black") && !opponent.equals("human")) {
-            System.out.println("Usage: --opponent=white|black|human --depth=<number>");
+            System.out.println("Usage: --opponent=white|black|human --depth=<number> --engine=<path>");
             System.exit(1);
         }
 
-        System.out.println("Opponent: " + opponent + ", Depth: " + depth);
+        System.out.println("Opponent: " + opponent + ", Depth: " + depth
+            + ", Engine: " + (enginePath != null ? enginePath : "default"));
 
         JFrame window = new JFrame("Iro Chess");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
         // Add GamePanel to the window
-        GamePanel gamePanel = new GamePanel(opponent, depth);
+        GamePanel gamePanel = new GamePanel(opponent, depth, enginePath);
         window.add(gamePanel);
         window.pack();
         window.setLocationRelativeTo(null);

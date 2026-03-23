@@ -62,7 +62,7 @@ public class GamePanel extends JPanel implements Runnable {
     public UciClient uciClient;
     public static boolean boardFlipped = false;
 
-    public GamePanel(String opponent, int depth) {
+    public GamePanel(String opponent, int depth, String enginePath) {
         playAgainstComputer = !opponent.equals("human");
         this.depth = depth;
         boardFlipped = opponent.equals("white");
@@ -86,7 +86,7 @@ public class GamePanel extends JPanel implements Runnable {
         board.setFen(NativeBoard.START_POSITION);
 
         if (playAgainstComputer) {
-            uciClient = new UciClient();
+            uciClient = enginePath != null ? new UciClient(enginePath) : new UciClient();
             try {
                 uciClient.start();
             } catch (IOException e) {
