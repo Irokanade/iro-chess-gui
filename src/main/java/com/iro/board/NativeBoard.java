@@ -44,9 +44,7 @@ public class NativeBoard {
     }
 
     public void generateMoves(Moves moveList) {
-        int[] raw = NativeMoveGen.generateLegalMoves(positionPtr);
-        moveList.count = raw.length;
-        System.arraycopy(raw, 0, moveList.moves, 0, raw.length);
+        moveList.count = NativeMoveGen.generateLegalMoves(positionPtr, moveList.moves);
     }
 
     public void makeMove(int move) {
@@ -73,8 +71,10 @@ public class NativeBoard {
         int from = (uci.charAt(0) - 'a') + (uci.charAt(1) - '1') * 8;
         int to   = (uci.charAt(2) - 'a') + (uci.charAt(3) - '1') * 8;
 
-        int[] moves = NativeMoveGen.generateLegalMoves(positionPtr);
-        for (int move : moves) {
+        int[] moveListBuffer = new int[218];
+        int count = NativeMoveGen.generateLegalMoves(positionPtr, moveListBuffer);
+        for (int i = 0; i < count; i++) {
+            int move = moveListBuffer[i];
             if ((move & 0x3f) == to && ((move >> 6) & 0x3f) == from) {
                 // if move has promotion
                 if (uci.length() == 5) {

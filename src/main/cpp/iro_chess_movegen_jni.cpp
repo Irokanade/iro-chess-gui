@@ -64,10 +64,10 @@ JNIEXPORT jint JNICALL Java_com_iro_board_NativeMoveGen_pieceAt(
     return static_cast<jint>(pos->at(static_cast<Square>(square)));
 }
 
-// Move generation — returns raw move uint16_t values as int[]
+// Move generation — writes moves into caller-provided buffer, returns count
 // Each move encodes: flags[15:12] | from[11:6] | to[5:0]
-JNIEXPORT jintArray JNICALL Java_com_iro_board_NativeMoveGen_generateLegalMoves(
-    JNIEnv *env, jclass cls, jlong handle)
+JNIEXPORT jint JNICALL Java_com_iro_board_NativeMoveGen_generateLegalMoves(
+    JNIEnv *env, jclass cls, jlong handle, jintArray buffer)
 {
     Position *pos = reinterpret_cast<Position*>(handle);
 
@@ -81,14 +81,13 @@ JNIEXPORT jintArray JNICALL Java_com_iro_board_NativeMoveGen_generateLegalMoves(
     }
 
     int count = static_cast<int>(end - moves);
-    jintArray result = env->NewIntArray(count);
     jint buf[218];
     for (int i = 0; i < count; i++) {
         buf[i] = static_cast<jint>(moves[i].to_from());
     }
 
-    env->SetIntArrayRegion(result, 0, count, buf);
-    return result;
+    env->SetIntArrayRegion(buffer, 0, count, buf);
+    return static_cast<jint>(count);
 }
 
 // Play a move (pass the raw uint16_t move value)
