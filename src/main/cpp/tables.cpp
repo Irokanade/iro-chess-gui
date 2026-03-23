@@ -1,5 +1,6 @@
 #include "tables.h"
 #include "types.h"
+#include <cstring>
 
 //A lookup table for king move bitboards
 const Bitboard KING_ATTACKS[64] = {

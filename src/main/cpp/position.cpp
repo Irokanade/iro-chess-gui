@@ -1,5 +1,6 @@
 #include "position.h"
 #include <sstream>
+#include <cstring>
 
 //Zobrist keys for each piece and each square
 //Used to incrementally update the hash key of a position
