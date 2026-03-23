@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.15)
+cmake_minimum_required(VERSION 3.24)
 project(iro_chess_movegen LANGUAGES CXX)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
@@ -14,7 +14,7 @@ add_library(iro_chess_movegen SHARED
     iro_chess_movegen_jni.cpp
 )
 
-target_include_directories(iro_chess_movegen PRIVATE ${JNI_INCLUDE_DIRS})
+target_link_libraries(iro_chess_movegen PRIVATE JNI::JNI)
 
 add_executable(chess_engine
     chess_engine.cpp
