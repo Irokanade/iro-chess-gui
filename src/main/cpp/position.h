@@ -445,7 +445,7 @@ Move* Position::generate_legals(Move* list) {
         if (b1 == 0) {
             checkers ^= SQUARE_BB[s];
         //If there is only one of our pieces between them, add our piece to the pinned bitboard
-        } else if ((b1 & b1 - 1) == 0) {
+        } else if ((b1 & (b1 - 1)) == 0) {
             pinned ^= b1;
         }
     }
