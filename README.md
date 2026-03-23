@@ -67,7 +67,9 @@ The default uses my custom engine,
 if you want to use your own engine you may add the executables to the `/engines` folder under your current os
 
 ## Acknowledgements
-The C++ move generator is based on [Surge](https://github.com/nkarve/surge) by nkarve, licensed under the MIT License.
+The C++ move generator is derived from [Surge](https://github.com/nkarve/surge) by nkarve, licensed under the MIT License.
+
+Chess piece assets by [RyiSnow](https://ryisnow.itch.io/pixel-art-chess-piece-images).
 
 ## License
 This project is licensed under the [MIT License](LICENSE).
